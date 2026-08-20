@@ -1,0 +1,22 @@
+[project]
+authors = [{ name = "Sebastián Seba" }]
+name = "river_crossing_puzzles"
+version = "0.1.0"
+description = "River crossing puzzles"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
+
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "hypothesis[cli, codemods]>=6.165.10",
+    "pytest>=9.1.1",
+    "pytest-xdist>=3.8.0",
+    "ruff>=0.16.3",
+]
