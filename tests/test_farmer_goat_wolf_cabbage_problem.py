@@ -43,7 +43,7 @@ class FarmerGoatWolfCabbageProblem(RuleBasedStateMachine):
         }
 
     @initialize()
-    def items_en_estado_inicial(self):
+    def items_are_at_the_starting_coast(self):
         self.positions = {
             FARMER: LEFT_COAST,
             WOLF: LEFT_COAST,
