@@ -1,4 +1,4 @@
-from enum import StrEnum, auto, unique
+from enum import IntEnum, StrEnum, auto, unique
 
 from hypothesis import Verbosity, note, settings
 from hypothesis.stateful import (
@@ -36,130 +36,88 @@ class Cannibal(StrEnum):
     CANNIBAL_C = auto()
 
 
+@unique
+class CrossingDirection(IntEnum):
+    LEFT_TO_RIGHT = 1
+    RIGHT_TO_LEFT = -1
+
+
+def is_valid_crossing(
+    self,
+    *,
+    crossers: list[Missionary | Cannibal],
+    crossing_direction: CrossingDirection,
+) -> bool:
+    number_missionaries_crossing: int = sum(
+        1 for item in crossers if item in Missionary
+    )
+    number_cannibals_crossing: int = sum(1 for item in crossers if item in Cannibal)
+    number_missionaries_currently_on_right_bank: int = sum(
+        1
+        for item, pos in self.positions.items()
+        if item in Missionary and pos == Terrain.RIGHT_BANK
+    )
+    number_missionaries_remaining_on_right_bank: int = abs(
+        number_missionaries_currently_on_right_bank * crossing_direction
+        + number_missionaries_crossing
+    )
+    number_cannibals_currently_on_right_bank: int = sum(
+        1
+        for item, pos in self.positions.items()
+        if item in Cannibal and pos == Terrain.RIGHT_BANK
+    )
+    number_cannibals_remaining_on_right_bank: int = abs(
+        number_cannibals_currently_on_right_bank * crossing_direction
+        + number_cannibals_crossing
+    )
+    number_missionaries_currently_on_left_bank: int = sum(
+        1
+        for item, pos in self.positions.items()
+        if item in Missionary and pos == Terrain.LEFT_BANK
+    )
+    number_missionaries_remaining_on_left_bank: int = abs(
+        (-number_missionaries_currently_on_left_bank * crossing_direction)
+        + number_missionaries_crossing
+    )
+    number_cannibals_currently_on_left_bank: int = sum(
+        1
+        for item, pos in self.positions.items()
+        if item in Cannibal and pos == Terrain.LEFT_BANK
+    )
+    number_cannibals_remaining_on_left_bank: int = abs(
+        (-number_cannibals_currently_on_left_bank * crossing_direction)
+        + (number_cannibals_crossing)
+    )
+    righ_bank_is_safe: bool = (
+        not number_missionaries_remaining_on_right_bank
+        or not number_cannibals_remaining_on_right_bank
+    ) or (
+        number_missionaries_remaining_on_right_bank
+        >= number_cannibals_remaining_on_right_bank
+    )
+
+    left_bank_is_safe: bool = (
+        not number_missionaries_remaining_on_left_bank
+        or not number_cannibals_remaining_on_left_bank
+    ) or (
+        number_missionaries_remaining_on_left_bank
+        >= number_cannibals_remaining_on_left_bank
+    )
+    return righ_bank_is_safe and left_bank_is_safe
+
+
 def cross_to_right_bank_is_valid(
-    self,
-    *,
-    crossers: list[Missionary | Cannibal],
+    self, *, crossers: list[Missionary | Cannibal]
 ) -> bool:
-    number_missionaries_crossing: int = sum(
-        1 for item in crossers if item in Missionary
-    )
-    number_cannibals_crossing: int = sum(1 for item in crossers if item in Cannibal)
-
-    number_missionaries_remaining_on_righ_bank: int = sum(
-        (
-            1
-            for item, pos in self.positions.items()
-            if item in Missionary and pos == Terrain.RIGHT_BANK
-        ),
-        start=number_missionaries_crossing,
-    )
-    number_cannibals_remaining_on_right_bank: int = sum(
-        (
-            1
-            for item, pos in self.positions.items()
-            if item in Cannibal and pos == Terrain.RIGHT_BANK
-        ),
-        start=number_cannibals_crossing,
+    return is_valid_crossing(
+        self, crossers=crossers, crossing_direction=CrossingDirection.LEFT_TO_RIGHT
     )
 
-    number_missionaries_remaining_on_left_bank: int = sum(
-        (
-            1
-            for item, pos in self.positions.items()
-            if item in Missionary and pos == Terrain.LEFT_BANK
-        ),
-        start=number_missionaries_crossing * -1,
-    )
-    number_cannibals_remaining_on_left_bank: int = sum(
-        (
-            1
-            for item, pos in self.positions.items()
-            if item in Cannibal and pos == Terrain.LEFT_BANK
-        ),
-        start=number_cannibals_crossing * -1,
-    )
 
-    right_bank_is_valid: bool = (
-        not number_missionaries_remaining_on_righ_bank
-        or not number_cannibals_remaining_on_right_bank
-    ) or (
-        number_missionaries_remaining_on_righ_bank
-        >= number_cannibals_remaining_on_right_bank
+def cross_to_left_bank_is_valid(self, *, crossers: list[Missionary | Cannibal]) -> bool:
+    return is_valid_crossing(
+        self, crossers=crossers, crossing_direction=CrossingDirection.RIGHT_TO_LEFT
     )
-
-    left_bank_is_valid: bool = (
-        not number_missionaries_remaining_on_left_bank
-        or not number_cannibals_remaining_on_left_bank
-    ) or (
-        number_missionaries_remaining_on_left_bank
-        >= number_cannibals_remaining_on_left_bank
-    )
-
-    return right_bank_is_valid and left_bank_is_valid
-
-
-def cross_to_left_bank_is_valid(
-    self,
-    *,
-    crossers: list[Missionary | Cannibal],
-) -> bool:
-    number_missionaries_crossing: int = sum(
-        1 for item in crossers if item in Missionary
-    )
-    number_cannibals_crossing: int = sum(1 for item in crossers if item in Cannibal)
-
-    number_missionaries_remaining_on_righ_bank: int = sum(
-        (
-            1
-            for item, pos in self.positions.items()
-            if item in Missionary and pos == Terrain.RIGHT_BANK
-        ),
-        start=number_missionaries_crossing * -1,
-    )
-    number_cannibals_remaining_on_right_bank: int = sum(
-        (
-            1
-            for item, pos in self.positions.items()
-            if item in Cannibal and pos == Terrain.RIGHT_BANK
-        ),
-        start=number_cannibals_crossing * -1,
-    )
-
-    number_missionaries_remaining_on_left_bank: int = sum(
-        (
-            1
-            for item, pos in self.positions.items()
-            if item in Missionary and pos == Terrain.LEFT_BANK
-        ),
-        start=number_missionaries_crossing,
-    )
-    number_cannibals_remaining_on_left_bank: int = sum(
-        (
-            1
-            for item, pos in self.positions.items()
-            if item in Cannibal and pos == Terrain.LEFT_BANK
-        ),
-        start=number_cannibals_crossing,
-    )
-
-    right_bank_is_valid: bool = (
-        not number_missionaries_remaining_on_righ_bank
-        or not number_cannibals_remaining_on_right_bank
-    ) or (
-        number_missionaries_remaining_on_righ_bank
-        >= number_cannibals_remaining_on_right_bank
-    )
-
-    left_bank_is_valid: bool = (
-        not number_missionaries_remaining_on_left_bank
-        or not number_cannibals_remaining_on_left_bank
-    ) or (
-        number_missionaries_remaining_on_left_bank
-        >= number_cannibals_remaining_on_left_bank
-    )
-
-    return right_bank_is_valid and left_bank_is_valid
 
 
 @settings(max_examples=2500, verbosity=Verbosity.normal)
