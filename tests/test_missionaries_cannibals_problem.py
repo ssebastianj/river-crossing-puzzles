@@ -624,6 +624,8 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
         self.positions[Missionary.MISSIONARY_C] = Terrain.LEFT_BANK
         self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
 
+    # missionary A + cannibal A
+
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_A]
         == self.positions[Cannibal.CANNIBAL_A]
@@ -640,6 +642,25 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
         self.positions[Missionary.MISSIONARY_A] = Terrain.RIGHT_BANK
         self.positions[Cannibal.CANNIBAL_A] = Terrain.RIGHT_BANK
         self.positions[MacGuffin.CANOE] = Terrain.RIGHT_BANK
+
+    @precondition(
+        lambda self: self.positions[Missionary.MISSIONARY_A]
+        == self.positions[Cannibal.CANNIBAL_A]
+        == self.positions[MacGuffin.CANOE]
+        == Terrain.RIGHT_BANK
+    )
+    @precondition(
+        lambda self: cross_to_left_bank_is_valid(
+            self, crossers=[Missionary.MISSIONARY_A, Cannibal.CANNIBAL_A]
+        )
+    )
+    @rule()
+    def missionary_a_cannibal_a_cross_from_right_to_left(self):
+        self.positions[Missionary.MISSIONARY_A] = Terrain.LEFT_BANK
+        self.positions[Cannibal.CANNIBAL_A] = Terrain.LEFT_BANK
+        self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
+
+    # missionary A + cannibal B
 
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_A]
@@ -660,6 +681,25 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
 
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_A]
+        == self.positions[Cannibal.CANNIBAL_B]
+        == self.positions[MacGuffin.CANOE]
+        == Terrain.RIGHT_BANK
+    )
+    @precondition(
+        lambda self: cross_to_left_bank_is_valid(
+            self, crossers=[Missionary.MISSIONARY_A, Cannibal.CANNIBAL_B]
+        )
+    )
+    @rule()
+    def missionary_a_cannibal_b_cross_from_right_to_left(self):
+        self.positions[Missionary.MISSIONARY_A] = Terrain.LEFT_BANK
+        self.positions[Cannibal.CANNIBAL_B] = Terrain.LEFT_BANK
+        self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
+
+    # missionary A + cannibal C
+
+    @precondition(
+        lambda self: self.positions[Missionary.MISSIONARY_A]
         == self.positions[Cannibal.CANNIBAL_C]
         == self.positions[MacGuffin.CANOE]
         == Terrain.LEFT_BANK
@@ -677,40 +717,6 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
 
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_A]
-        == self.positions[Cannibal.CANNIBAL_A]
-        == self.positions[MacGuffin.CANOE]
-        == Terrain.RIGHT_BANK
-    )
-    @precondition(
-        lambda self: cross_to_left_bank_is_valid(
-            self, crossers=[Missionary.MISSIONARY_A, Cannibal.CANNIBAL_A]
-        )
-    )
-    @rule()
-    def missionary_a_cannibal_a_cross_from_right_to_left(self):
-        self.positions[Missionary.MISSIONARY_A] = Terrain.LEFT_BANK
-        self.positions[Cannibal.CANNIBAL_A] = Terrain.LEFT_BANK
-        self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
-
-    @precondition(
-        lambda self: self.positions[Missionary.MISSIONARY_A]
-        == self.positions[Cannibal.CANNIBAL_B]
-        == self.positions[MacGuffin.CANOE]
-        == Terrain.RIGHT_BANK
-    )
-    @precondition(
-        lambda self: cross_to_left_bank_is_valid(
-            self, crossers=[Missionary.MISSIONARY_A, Cannibal.CANNIBAL_B]
-        )
-    )
-    @rule()
-    def missionary_a_cannibal_b_cross_from_right_to_left(self):
-        self.positions[Missionary.MISSIONARY_A] = Terrain.LEFT_BANK
-        self.positions[Cannibal.CANNIBAL_B] = Terrain.LEFT_BANK
-        self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
-
-    @precondition(
-        lambda self: self.positions[Missionary.MISSIONARY_A]
         == self.positions[Cannibal.CANNIBAL_C]
         == self.positions[MacGuffin.CANOE]
         == Terrain.RIGHT_BANK
@@ -725,6 +731,8 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
         self.positions[Missionary.MISSIONARY_A] = Terrain.LEFT_BANK
         self.positions[Cannibal.CANNIBAL_C] = Terrain.LEFT_BANK
         self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
+
+    # missionary B + cannibal A
 
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_B]
@@ -745,6 +753,25 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
 
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_B]
+        == self.positions[Cannibal.CANNIBAL_A]
+        == self.positions[MacGuffin.CANOE]
+        == Terrain.RIGHT_BANK
+    )
+    @precondition(
+        lambda self: cross_to_left_bank_is_valid(
+            self, crossers=[Missionary.MISSIONARY_B, Cannibal.CANNIBAL_A]
+        )
+    )
+    @rule()
+    def missionary_b_cannibal_a_cross_from_right_to_left(self):
+        self.positions[Missionary.MISSIONARY_B] = Terrain.LEFT_BANK
+        self.positions[Cannibal.CANNIBAL_A] = Terrain.LEFT_BANK
+        self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
+
+    # missionary B + cannibal B
+
+    @precondition(
+        lambda self: self.positions[Missionary.MISSIONARY_B]
         == self.positions[Cannibal.CANNIBAL_B]
         == self.positions[MacGuffin.CANOE]
         == Terrain.LEFT_BANK
@@ -759,6 +786,25 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
         self.positions[Missionary.MISSIONARY_B] = Terrain.RIGHT_BANK
         self.positions[Cannibal.CANNIBAL_B] = Terrain.RIGHT_BANK
         self.positions[MacGuffin.CANOE] = Terrain.RIGHT_BANK
+
+    @precondition(
+        lambda self: self.positions[Missionary.MISSIONARY_B]
+        == self.positions[Cannibal.CANNIBAL_B]
+        == self.positions[MacGuffin.CANOE]
+        == Terrain.RIGHT_BANK
+    )
+    @precondition(
+        lambda self: cross_to_left_bank_is_valid(
+            self, crossers=[Missionary.MISSIONARY_B, Cannibal.CANNIBAL_B]
+        )
+    )
+    @rule()
+    def missionary_b_cannibal_b_cross_from_right_to_left(self):
+        self.positions[Missionary.MISSIONARY_B] = Terrain.LEFT_BANK
+        self.positions[Cannibal.CANNIBAL_B] = Terrain.LEFT_BANK
+        self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
+
+    # missionary B + cannibal C
 
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_B]
@@ -779,40 +825,6 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
 
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_B]
-        == self.positions[Cannibal.CANNIBAL_A]
-        == self.positions[MacGuffin.CANOE]
-        == Terrain.RIGHT_BANK
-    )
-    @precondition(
-        lambda self: cross_to_left_bank_is_valid(
-            self, crossers=[Missionary.MISSIONARY_B, Cannibal.CANNIBAL_A]
-        )
-    )
-    @rule()
-    def missionary_b_cannibal_a_cross_from_right_to_left(self):
-        self.positions[Missionary.MISSIONARY_B] = Terrain.LEFT_BANK
-        self.positions[Cannibal.CANNIBAL_A] = Terrain.LEFT_BANK
-        self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
-
-    @precondition(
-        lambda self: self.positions[Missionary.MISSIONARY_B]
-        == self.positions[Cannibal.CANNIBAL_B]
-        == self.positions[MacGuffin.CANOE]
-        == Terrain.RIGHT_BANK
-    )
-    @precondition(
-        lambda self: cross_to_left_bank_is_valid(
-            self, crossers=[Missionary.MISSIONARY_B, Cannibal.CANNIBAL_B]
-        )
-    )
-    @rule()
-    def missionary_b_cannibal_b_cross_from_right_to_left(self):
-        self.positions[Missionary.MISSIONARY_B] = Terrain.LEFT_BANK
-        self.positions[Cannibal.CANNIBAL_B] = Terrain.LEFT_BANK
-        self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
-
-    @precondition(
-        lambda self: self.positions[Missionary.MISSIONARY_B]
         == self.positions[Cannibal.CANNIBAL_C]
         == self.positions[MacGuffin.CANOE]
         == Terrain.LEFT_BANK
@@ -827,6 +839,8 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
         self.positions[Missionary.MISSIONARY_B] = Terrain.LEFT_BANK
         self.positions[Cannibal.CANNIBAL_C] = Terrain.LEFT_BANK
         self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
+
+    # missionary C + cannibal A
 
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_C]
@@ -847,6 +861,25 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
 
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_C]
+        == self.positions[Cannibal.CANNIBAL_A]
+        == self.positions[MacGuffin.CANOE]
+        == Terrain.RIGHT_BANK
+    )
+    @precondition(
+        lambda self: cross_to_left_bank_is_valid(
+            self, crossers=[Missionary.MISSIONARY_C, Cannibal.CANNIBAL_A]
+        )
+    )
+    @rule()
+    def missionary_c_cannibal_a_cross_from_right_to_left(self):
+        self.positions[Missionary.MISSIONARY_C] = Terrain.LEFT_BANK
+        self.positions[Cannibal.CANNIBAL_A] = Terrain.LEFT_BANK
+        self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
+
+    # missionary C + cannibal B
+
+    @precondition(
+        lambda self: self.positions[Missionary.MISSIONARY_C]
         == self.positions[Cannibal.CANNIBAL_B]
         == self.positions[MacGuffin.CANOE]
         == Terrain.LEFT_BANK
@@ -864,40 +897,6 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
 
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_C]
-        == self.positions[Cannibal.CANNIBAL_C]
-        == self.positions[MacGuffin.CANOE]
-        == Terrain.LEFT_BANK
-    )
-    @precondition(
-        lambda self: cross_to_right_bank_is_valid(
-            self, crossers=[Missionary.MISSIONARY_C, Cannibal.CANNIBAL_C]
-        )
-    )
-    @rule()
-    def missionary_c_cannibal_c_cross_from_left_to_right(self):
-        self.positions[Missionary.MISSIONARY_C] = Terrain.RIGHT_BANK
-        self.positions[Cannibal.CANNIBAL_C] = Terrain.RIGHT_BANK
-        self.positions[MacGuffin.CANOE] = Terrain.RIGHT_BANK
-
-    @precondition(
-        lambda self: self.positions[Missionary.MISSIONARY_C]
-        == self.positions[Cannibal.CANNIBAL_A]
-        == self.positions[MacGuffin.CANOE]
-        == Terrain.RIGHT_BANK
-    )
-    @precondition(
-        lambda self: cross_to_left_bank_is_valid(
-            self, crossers=[Missionary.MISSIONARY_C, Cannibal.CANNIBAL_A]
-        )
-    )
-    @rule()
-    def missionary_c_cannibal_a_cross_from_right_to_left(self):
-        self.positions[Missionary.MISSIONARY_C] = Terrain.LEFT_BANK
-        self.positions[Cannibal.CANNIBAL_A] = Terrain.LEFT_BANK
-        self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
-
-    @precondition(
-        lambda self: self.positions[Missionary.MISSIONARY_C]
         == self.positions[Cannibal.CANNIBAL_B]
         == self.positions[MacGuffin.CANOE]
         == Terrain.RIGHT_BANK
@@ -912,6 +911,25 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
         self.positions[Missionary.MISSIONARY_C] = Terrain.LEFT_BANK
         self.positions[Cannibal.CANNIBAL_B] = Terrain.LEFT_BANK
         self.positions[MacGuffin.CANOE] = Terrain.LEFT_BANK
+
+    # missionary C + cannibal C
+
+    @precondition(
+        lambda self: self.positions[Missionary.MISSIONARY_C]
+        == self.positions[Cannibal.CANNIBAL_C]
+        == self.positions[MacGuffin.CANOE]
+        == Terrain.LEFT_BANK
+    )
+    @precondition(
+        lambda self: cross_to_right_bank_is_valid(
+            self, crossers=[Missionary.MISSIONARY_C, Cannibal.CANNIBAL_C]
+        )
+    )
+    @rule()
+    def missionary_c_cannibal_c_cross_from_left_to_right(self):
+        self.positions[Missionary.MISSIONARY_C] = Terrain.RIGHT_BANK
+        self.positions[Cannibal.CANNIBAL_C] = Terrain.RIGHT_BANK
+        self.positions[MacGuffin.CANOE] = Terrain.RIGHT_BANK
 
     @precondition(
         lambda self: self.positions[Missionary.MISSIONARY_C]
