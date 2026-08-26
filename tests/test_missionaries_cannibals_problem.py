@@ -88,37 +88,33 @@ def is_valid_crossing(
         1 for item in crossers if item in Missionary
     )
     number_cannibals_crossing: int = sum(1 for item in crossers if item in Cannibal)
-    number_missionaries_currently_on_right_bank: int = sum(
-        1
-        for item, pos in state_machine_instance.positions.items()
-        if item in Missionary and pos == Terrain.RIGHT_BANK
+
+    number_missionaries_currently_on_right_bank: int = (
+        count_missionaries_on_right_bank_for(state_machine_instance)
     )
     number_missionaries_remaining_on_right_bank: int = abs(
         number_missionaries_currently_on_right_bank * crossing_direction
         + number_missionaries_crossing
     )
-    number_cannibals_currently_on_right_bank: int = sum(
-        1
-        for item, pos in state_machine_instance.positions.items()
-        if item in Cannibal and pos == Terrain.RIGHT_BANK
+
+    number_cannibals_currently_on_right_bank: int = count_cannibals_on_right_bank_for(
+        state_machine_instance
     )
     number_cannibals_remaining_on_right_bank: int = abs(
         number_cannibals_currently_on_right_bank * crossing_direction
         + number_cannibals_crossing
     )
-    number_missionaries_currently_on_left_bank: int = sum(
-        1
-        for item, pos in state_machine_instance.positions.items()
-        if item in Missionary and pos == Terrain.LEFT_BANK
+
+    number_missionaries_currently_on_left_bank: int = (
+        count_missionaries_on_left_bank_for(state_machine_instance)
     )
     number_missionaries_remaining_on_left_bank: int = abs(
         (-number_missionaries_currently_on_left_bank * crossing_direction)
         + number_missionaries_crossing
     )
-    number_cannibals_currently_on_left_bank: int = sum(
-        1
-        for item, pos in state_machine_instance.positions.items()
-        if item in Cannibal and pos == Terrain.LEFT_BANK
+
+    number_cannibals_currently_on_left_bank: int = count_cannibals_on_left_bank_for(
+        state_machine_instance
     )
     number_cannibals_remaining_on_left_bank: int = abs(
         (-number_cannibals_currently_on_left_bank * crossing_direction)
@@ -145,6 +141,7 @@ def is_valid_crossing(
 def cross_to_right_bank_is_valid(
     state_machine_instance, *, crossers: list[Missionary | Cannibal]
 ) -> bool:
+    "Can the crossing from left to right be made?"
     return is_valid_crossing(
         state_machine_instance,
         crossers=crossers,
@@ -155,6 +152,7 @@ def cross_to_right_bank_is_valid(
 def cross_to_left_bank_is_valid(
     state_machine_instance, *, crossers: list[Missionary | Cannibal]
 ) -> bool:
+    "Can the crossing from right to left be made?"
     return is_valid_crossing(
         state_machine_instance,
         crossers=crossers,
