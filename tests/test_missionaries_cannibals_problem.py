@@ -92,7 +92,7 @@ def is_valid_crossing(
     number_missionaries_currently_on_right_bank: int = (
         count_missionaries_on_right_bank_for(state_machine_instance)
     )
-    number_missionaries_remaining_on_right_bank: int = abs(
+    total_number_missionaries_on_right_bank: int = abs(
         number_missionaries_currently_on_right_bank * crossing_direction
         + number_missionaries_crossing
     )
@@ -100,7 +100,7 @@ def is_valid_crossing(
     number_cannibals_currently_on_right_bank: int = count_cannibals_on_right_bank_for(
         state_machine_instance
     )
-    number_cannibals_remaining_on_right_bank: int = abs(
+    total_number_cannibals_on_right_bank: int = abs(
         number_cannibals_currently_on_right_bank * crossing_direction
         + number_cannibals_crossing
     )
@@ -108,7 +108,7 @@ def is_valid_crossing(
     number_missionaries_currently_on_left_bank: int = (
         count_missionaries_on_left_bank_for(state_machine_instance)
     )
-    number_missionaries_remaining_on_left_bank: int = abs(
+    total_number_missionaries_on_left_bank: int = abs(
         (-number_missionaries_currently_on_left_bank * crossing_direction)
         + number_missionaries_crossing
     )
@@ -116,25 +116,21 @@ def is_valid_crossing(
     number_cannibals_currently_on_left_bank: int = count_cannibals_on_left_bank_for(
         state_machine_instance
     )
-    number_cannibals_remaining_on_left_bank: int = abs(
+    total_number_cannibals_on_left_bank: int = abs(
         (-number_cannibals_currently_on_left_bank * crossing_direction)
         + (number_cannibals_crossing)
     )
     righ_bank_is_safe: bool = (
-        not number_missionaries_remaining_on_right_bank
-        or not number_cannibals_remaining_on_right_bank
+        not total_number_missionaries_on_right_bank
+        or not total_number_cannibals_on_right_bank
     ) or (
-        number_missionaries_remaining_on_right_bank
-        >= number_cannibals_remaining_on_right_bank
+        total_number_missionaries_on_right_bank >= total_number_cannibals_on_right_bank
     )
 
     left_bank_is_safe: bool = (
-        not number_missionaries_remaining_on_left_bank
-        or not number_cannibals_remaining_on_left_bank
-    ) or (
-        number_missionaries_remaining_on_left_bank
-        >= number_cannibals_remaining_on_left_bank
-    )
+        not total_number_missionaries_on_left_bank
+        or not total_number_cannibals_on_left_bank
+    ) or (total_number_missionaries_on_left_bank >= total_number_cannibals_on_left_bank)
     return righ_bank_is_safe and left_bank_is_safe
 
 
