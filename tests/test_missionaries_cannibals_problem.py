@@ -109,7 +109,7 @@ def is_valid_crossing(
         count_missionaries_on_left_bank_for(state_machine_instance)
     )
     total_number_missionaries_on_left_bank: int = abs(
-        (-number_missionaries_currently_on_left_bank * crossing_direction)
+        (number_missionaries_currently_on_left_bank * -crossing_direction)
         + number_missionaries_crossing
     )
 
@@ -117,7 +117,7 @@ def is_valid_crossing(
         state_machine_instance
     )
     total_number_cannibals_on_left_bank: int = abs(
-        (-number_cannibals_currently_on_left_bank * crossing_direction)
+        (number_cannibals_currently_on_left_bank * -crossing_direction)
         + (number_cannibals_crossing)
     )
     righ_bank_is_safe: bool = (
