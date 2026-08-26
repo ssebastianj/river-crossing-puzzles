@@ -43,7 +43,7 @@ class CrossingDirection(IntEnum):
 
 
 def is_valid_crossing(
-    self,
+    state_machine_instance,
     *,
     crossers: list[Missionary | Cannibal],
     crossing_direction: CrossingDirection,
@@ -54,7 +54,7 @@ def is_valid_crossing(
     number_cannibals_crossing: int = sum(1 for item in crossers if item in Cannibal)
     number_missionaries_currently_on_right_bank: int = sum(
         1
-        for item, pos in self.positions.items()
+        for item, pos in state_machine_instance.positions.items()
         if item in Missionary and pos == Terrain.RIGHT_BANK
     )
     number_missionaries_remaining_on_right_bank: int = abs(
@@ -63,7 +63,7 @@ def is_valid_crossing(
     )
     number_cannibals_currently_on_right_bank: int = sum(
         1
-        for item, pos in self.positions.items()
+        for item, pos in state_machine_instance.positions.items()
         if item in Cannibal and pos == Terrain.RIGHT_BANK
     )
     number_cannibals_remaining_on_right_bank: int = abs(
@@ -72,7 +72,7 @@ def is_valid_crossing(
     )
     number_missionaries_currently_on_left_bank: int = sum(
         1
-        for item, pos in self.positions.items()
+        for item, pos in state_machine_instance.positions.items()
         if item in Missionary and pos == Terrain.LEFT_BANK
     )
     number_missionaries_remaining_on_left_bank: int = abs(
@@ -81,7 +81,7 @@ def is_valid_crossing(
     )
     number_cannibals_currently_on_left_bank: int = sum(
         1
-        for item, pos in self.positions.items()
+        for item, pos in state_machine_instance.positions.items()
         if item in Cannibal and pos == Terrain.LEFT_BANK
     )
     number_cannibals_remaining_on_left_bank: int = abs(
@@ -107,16 +107,22 @@ def is_valid_crossing(
 
 
 def cross_to_right_bank_is_valid(
-    self, *, crossers: list[Missionary | Cannibal]
+    state_machine_instance, *, crossers: list[Missionary | Cannibal]
 ) -> bool:
     return is_valid_crossing(
-        self, crossers=crossers, crossing_direction=CrossingDirection.LEFT_TO_RIGHT
+        state_machine_instance,
+        crossers=crossers,
+        crossing_direction=CrossingDirection.LEFT_TO_RIGHT,
     )
 
 
-def cross_to_left_bank_is_valid(self, *, crossers: list[Missionary | Cannibal]) -> bool:
+def cross_to_left_bank_is_valid(
+    state_machine_instance, *, crossers: list[Missionary | Cannibal]
+) -> bool:
     return is_valid_crossing(
-        self, crossers=crossers, crossing_direction=CrossingDirection.RIGHT_TO_LEFT
+        state_machine_instance,
+        crossers=crossers,
+        crossing_direction=CrossingDirection.RIGHT_TO_LEFT,
     )
 
 
