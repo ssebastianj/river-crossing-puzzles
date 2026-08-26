@@ -42,6 +42,42 @@ class CrossingDirection(IntEnum):
     RIGHT_TO_LEFT = -1
 
 
+def count_cannibals_on_right_bank_for(state_machine_state) -> int:
+    """How many cannibals there are on the right bank?"""
+    return sum(
+        1
+        for item, position in state_machine_state.positions.items()
+        if item in Cannibal and position == Terrain.RIGHT_BANK
+    )
+
+
+def count_cannibals_on_left_bank_for(state_machine_state) -> int:
+    """How many cannibals there are on the left bank?"""
+    return sum(
+        1
+        for item, position in state_machine_state.positions.items()
+        if item in Cannibal and position == Terrain.LEFT_BANK
+    )
+
+
+def count_missionaries_on_right_bank_for(state_machine_state) -> int:
+    """How many missionaries there are on the right bank?"""
+    return sum(
+        1
+        for item, position in state_machine_state.positions.items()
+        if item in Missionary and position == Terrain.RIGHT_BANK
+    )
+
+
+def count_missionaries_on_left_bank_for(state_machine_state) -> int:
+    """How many cannibals there are on the left bank?"""
+    return sum(
+        1
+        for item, position in state_machine_state.positions.items()
+        if item in Missionary and position == Terrain.LEFT_BANK
+    )
+
+
 def is_valid_crossing(
     state_machine_instance,
     *,
@@ -156,35 +192,19 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
         )
         assert number_items_on_left_bank + number_items_on_right_bank == 7
 
+    @precondition(lambda self: count_missionaries_on_left_bank_for(self) > 0)
     @invariant()
     def cannibals_do_not_outnumber_missionaries_on_left_bank(self):
-        number_cannibals_on_left_bank = sum(
-            1
-            for item, position in self.positions.items()
-            if item in Cannibal and position == Terrain.LEFT_BANK
-        )
-        number_missionaries_on_left_bank = sum(
-            1
-            for item, position in self.positions.items()
-            if item in Missionary and position == Terrain.LEFT_BANK
-        )
-        if number_missionaries_on_left_bank:
-            assert number_cannibals_on_left_bank <= number_missionaries_on_left_bank
+        assert count_missionaries_on_left_bank_for(
+            self
+        ) >= count_cannibals_on_left_bank_for(self)
 
+    @precondition(lambda self: count_missionaries_on_right_bank_for(self) > 0)
     @invariant()
     def cannibals_do_not_outnumber_missionaries_on_right_bank(self):
-        number_cannibals_on_right_bank = sum(
-            1
-            for item, position in self.positions.items()
-            if item in Cannibal and position == Terrain.RIGHT_BANK
-        )
-        number_missionaries_on_right_bank = sum(
-            1
-            for item, position in self.positions.items()
-            if item in Missionary and position == Terrain.RIGHT_BANK
-        )
-        if number_missionaries_on_right_bank:
-            assert number_cannibals_on_right_bank <= number_missionaries_on_right_bank
+        assert count_missionaries_on_right_bank_for(
+            self
+        ) >= count_cannibals_on_right_bank_for(self)
 
     @invariant()
     def problem_is_not_solved(self):
