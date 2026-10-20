@@ -35,12 +35,6 @@ RIGHT_COAST = Item.RIGHT_COAST.name
 class FarmerGoatWolfCabbageProblem(RuleBasedStateMachine):
     def __init__(self) -> None:
         super().__init__()
-        self.positions = {
-            FARMER: LEFT_COAST,
-            WOLF: LEFT_COAST,
-            GOAT: LEFT_COAST,
-            CABBAGE: LEFT_COAST,
-        }
 
     @initialize()
     def items_are_at_the_starting_coast(self):
@@ -132,7 +126,7 @@ class FarmerGoatWolfCabbageProblem(RuleBasedStateMachine):
         self.positions[CABBAGE] = RIGHT_COAST
 
     @invariant()
-    def puzzle_is_solved(self):
+    def puzzle_is_not_solved(self):
         note(
             f"{[item for item, position in self.positions.items() if position is LEFT_COAST]}  ~~~~  {[item for item, position in self.positions.items() if position is RIGHT_COAST]}"
         )
