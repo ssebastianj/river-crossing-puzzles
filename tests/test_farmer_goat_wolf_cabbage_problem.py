@@ -31,8 +31,8 @@ class FarmerGoatWolfCabbageProblem(RuleBasedStateMachine):
         super().__init__()
 
     @initialize()
-    def items_start_at_the_left_coast(self):
-        self.positions = {
+    def items_start_at_the_left_coast(self) -> None:
+        self.positions: dict[Item, Terrain] = {
             Item.FARMER: Terrain.LEFT_COAST,
             Item.WOLF: Terrain.LEFT_COAST,
             Item.GOAT: Terrain.LEFT_COAST,
