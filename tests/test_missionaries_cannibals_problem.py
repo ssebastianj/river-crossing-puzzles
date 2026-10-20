@@ -70,7 +70,7 @@ def count_missionaries_on_right_bank_for(state_machine_state) -> int:
 
 
 def count_missionaries_on_left_bank_for(state_machine_state) -> int:
-    """How many cannibals there are on the left bank?"""
+    """How many missionaries there are on the left bank?"""
     return sum(
         1
         for item, position in state_machine_state.positions.items()
@@ -827,7 +827,7 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
         lambda self: self.positions[Missionary.MISSIONARY_B]
         == self.positions[Cannibal.CANNIBAL_C]
         == self.positions[MacGuffin.CANOE]
-        == Terrain.LEFT_BANK
+        == Terrain.RIGHT_BANK
     )
     @precondition(
         lambda self: cross_to_left_bank_is_valid(
