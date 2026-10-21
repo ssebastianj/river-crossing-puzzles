@@ -203,12 +203,12 @@ class MissionariesCannibalsProblem(RuleBasedStateMachine):
     @invariant()
     def problem_is_not_solved(self):
         items_on_left_bank = [
-            str(item)
+            item.name
             for item, position in self.positions.items()
             if position == Terrain.LEFT_BANK
         ]
         items_on_right_bank = [
-            str(item)
+            item.name
             for item, position in self.positions.items()
             if position == Terrain.RIGHT_BANK
         ]
